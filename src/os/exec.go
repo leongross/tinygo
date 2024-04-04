@@ -58,7 +58,7 @@ type Process struct {
 }
 
 func StartProcess(name string, argv []string, attr *ProcAttr) (*Process, error) {
-	return nil, &PathError{"fork/exec", name, ErrNotImplemented}
+	return nil, &PathError{Op: "fork/exec", Path: name, Err: ErrNotImplemented}
 }
 
 func (p *Process) Wait() (*ProcessState, error) {
@@ -71,4 +71,9 @@ func (p *Process) Kill() error {
 
 func (p *Process) Signal(sig Signal) error {
 	return ErrNotImplemented
+}
+
+// Keep compatibility with golang and always succeed and return new proc with pid on Linux.
+func FindProcess(pid int) (*Process, error) {
+	return findProcess(pid)
 }
