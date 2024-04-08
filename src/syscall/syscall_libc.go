@@ -3,6 +3,7 @@
 package syscall
 
 import (
+	"syscall"
 	"unsafe"
 )
 
@@ -154,6 +155,15 @@ func Unlink(path string) (err error) {
 }
 
 func Faccessat(dirfd int, path string, mode uint32, flags int) (err error)
+
+func Statfs(path string, buf *syscall.Statfs_t) (err error) {
+	data := cstring(path)
+	fail := int(libc_statfs(&data[0], buf))
+	if fail < 0 {
+		err = getErrno()
+	}
+	return
+}
 
 func Kill(pid int, sig Signal) (err error) {
 	return ENOSYS // TODO
@@ -430,6 +440,11 @@ func libc_readlink(path *byte, buf *byte, count uint) int
 //
 //export unlink
 func libc_unlink(pathname *byte) int32
+
+// int statfs(const char *path, struct statfs *buf);
+//
+//export statfs
+func libc_statfs(path *byte, buf *syscall.Statfs_t) int32
 
 //go:extern environ
 var libc_environ *unsafe.Pointer
