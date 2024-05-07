@@ -62,6 +62,9 @@ func StartProcess(name string, argv []string, attr *ProcAttr) (*Process, error) 
 }
 
 func (p *Process) Wait() (*ProcessState, error) {
+	if p.Pid == -1 {
+		return nil, syscall.EINVAL
+	}
 	return nil, ErrNotImplemented
 }
 
@@ -71,6 +74,13 @@ func (p *Process) Kill() error {
 
 func (p *Process) Signal(sig Signal) error {
 	return ErrNotImplemented
+}
+
+// Release releases any resources associated with the Process p,
+// rendering it unusable in the future.
+// Release only needs to be called if Wait is not.
+func (p *Process) Release() error {
+	return p.release()
 }
 
 // Keep compatibility with golang and always succeed and return new proc with pid on Linux.
