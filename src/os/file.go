@@ -23,6 +23,7 @@ import (
 	"io/fs"
 	"runtime"
 	"syscall"
+	"time"
 )
 
 // Seek whence values.
@@ -291,6 +292,10 @@ func (f *File) Truncate(size int64) (err error) {
 		err = ErrNotImplemented
 	}
 	return &PathError{Op: "truncate", Path: f.name, Err: err}
+}
+
+func (f *File) SetReadDeadline(t time.Time) error {
+	return f.setReadDeadline(t)
 }
 
 // LinkError records an error during a link or symlink or rename system call and
