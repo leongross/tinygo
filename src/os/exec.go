@@ -87,3 +87,8 @@ func (p *Process) Release() error {
 func FindProcess(pid int) (*Process, error) {
 	return findProcess(pid)
 }
+
+func Ignore(sig ...Signal) {
+	// leave all the signals unaltered
+	return
+}
