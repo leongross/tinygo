@@ -851,6 +851,7 @@ func (c *compilerContext) createPackage(irbuilder llvm.Builder, pkg *ssa.Package
 				continue
 			}
 			b.createFunction()
+
 		case *ssa.Type:
 			if types.IsInterface(member.Type()) {
 				// Interfaces don't have concrete methods.
@@ -888,6 +889,7 @@ func (c *compilerContext) createPackage(irbuilder llvm.Builder, pkg *ssa.Package
 				b := newBuilder(c, irbuilder, fn)
 				b.createFunction()
 			}
+
 		case *ssa.Global:
 			// Global variable.
 			info := c.getGlobalInfo(member)
@@ -914,11 +916,14 @@ func (c *compilerContext) createPackage(irbuilder llvm.Builder, pkg *ssa.Package
 				continue // external function
 			}
 			info := c.getFunctionInfo(member)
+			// fmt.Printf("info = %v\n", info)
 			if aliasName, ok := stdlibAliases[info.linkName]; ok {
 				alias := c.mod.NamedFunction(aliasName)
+				// fmt.Printf("alias = %v\n", alias)
 				if alias.IsNil() {
 					// Shouldn't happen, but perhaps best to just ignore.
 					// The error will be a link error, if there is an error.
+					fmt.Printf("ERROR: alias %v -> %v is nil\n", info.linkName, aliasName)
 					continue
 				}
 				b := newBuilder(c, irbuilder, member)
