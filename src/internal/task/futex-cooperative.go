@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 //go:build !scheduler.threads
 
+=======
+>>>>>>> 00980b5b (internal/task: add cooperative implementation of Futex)
 package task
 
 // A futex is a way for userspace to wait with the pointer as the key, and for
