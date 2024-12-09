@@ -467,14 +467,15 @@ func ReadFile(name string) ([]byte, error) {
 			d := append(data[:cap(data)], 0)
 			data = d[:len(data)]
 		}
+
 		n, err := f.Read(data[len(data):cap(data)])
-		data = data[:len(data)+n]
 		if err != nil {
 			if err == io.EOF {
 				err = nil
 			}
 			return data, err
 		}
+		data = data[:len(data)+n]
 	}
 }
 
