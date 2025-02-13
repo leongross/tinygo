@@ -9,6 +9,10 @@ type Semaphore struct {
 	futex Futex
 }
 
+func NewSemaphore(runtimeAddr uint32) *Semaphore {
+	return &Semaphore{NewFutex(runtimeAddr)}
+}
+
 // Post (unlock) the semaphore, incrementing the value in the semaphore.
 func (s *Semaphore) Post() {
 	newValue := s.futex.Add(1)

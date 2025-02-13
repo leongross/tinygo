@@ -12,6 +12,14 @@ type Futex struct {
 	waiters Stack
 }
 
+func NewFutex(runtimeAddr uint32) Futex {
+	return Futex{
+		Uint32: Uint32{v: runtimeAddr},
+		// TODO: use current task stack here?!
+		waiters: Stack{},
+	}
+}
+
 // Atomically check for cmp to still be equal to the futex value and if so, go
 // to sleep. Return true if we were definitely awoken by a call to Wake or
 // WakeAll, and false if we can't be sure of that.
