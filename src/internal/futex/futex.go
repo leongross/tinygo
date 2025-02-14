@@ -19,6 +19,12 @@ type Futex struct {
 	atomic.Uint32
 }
 
+func NewFutex(runtimeAddr *uint32) Futex {
+	f := Futex{Uint32: atomic.Uint32{}}
+	f.Uint32.Store(atomic.LoadUint32(runtimeAddr))
+	return f
+}
+
 // Atomically check for cmp to still be equal to the futex value and if so, go
 // to sleep. Return true if we were definitely awoken by a call to Wake or
 // WakeAll, and false if we can't be sure of that.

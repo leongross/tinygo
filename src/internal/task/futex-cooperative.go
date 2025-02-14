@@ -12,9 +12,10 @@ type Futex struct {
 	waiters Stack
 }
 
-func NewFutex(runtimeAddr uint32) Futex {
+func NewFutex(runtimeAddr *uint32) Futex {
 	return Futex{
-		Uint32: Uint32{v: runtimeAddr},
+		// deref original pointer to get the value
+		Uint32: Uint32{v: *runtimeAddr},
 		// TODO: use current task stack here?!
 		waiters: Stack{},
 	}

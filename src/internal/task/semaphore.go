@@ -9,7 +9,7 @@ type Semaphore struct {
 	futex Futex
 }
 
-func NewSemaphore(runtimeAddr uint32) *Semaphore {
+func NewSemaphore(runtimeAddr *uint32) *Semaphore {
 	return &Semaphore{NewFutex(runtimeAddr)}
 }
 

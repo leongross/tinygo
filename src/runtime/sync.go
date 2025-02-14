@@ -63,7 +63,7 @@ func semacquire(sema *uint32) {
 			semaphore.Wait()
 		} else {
 			// if there is no semaphore object, create one and add it to the map
-			semaphore := *task.NewSemaphore(semAddru32)
+			semaphore := *task.NewSemaphore(sema)
 			semAddrMap[semAddru32] = semaphore
 			println("[dbg] add semaphore: ", sema)
 			printSemMap()
